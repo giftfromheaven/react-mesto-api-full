@@ -1,0 +1,7 @@
+.popup__image-item {
+    object-fit: contain;
+    min-width: 25vw;
+    min-height: 25vh;
+    max-width: 75vw;
+    max-height: 75vh;
+}
