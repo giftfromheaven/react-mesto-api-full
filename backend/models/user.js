@@ -1,8 +1,8 @@
 // models/user.js
 
-const { Schema, model } = require("mongoose");
-const { isEmail, isURL } = require("validator");
-const bcrypt = require("bcrypt");
+const { Schema, model } = require('mongoose');
+const { isEmail, isURL } = require('validator');
+const bcrypt = require('bcrypt');
 // Опишем схему:
 const userSchema = new Schema({
   name: {
@@ -22,7 +22,7 @@ const userSchema = new Schema({
     required: true,
     validate: {
       validator: (url) => isURL(url),
-      message: "Ссылка не подходит",
+      message: 'Ссылка не подходит',
     },
   },
   email: {
@@ -31,7 +31,7 @@ const userSchema = new Schema({
     unique: true,
     validate: {
       validator: (email) => isEmail(email),
-      messages: "Не подходящий адрес электронной почты",
+      messages: 'Не подходящий адрес электронной почты',
     },
   },
   password: {
@@ -42,16 +42,16 @@ const userSchema = new Schema({
 });
 
 userSchema.statics.findUserByCredentials = function compare(email, password) {
-  return this.findOne({ email }).select("+password")
+  return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error("Неправильные почта или пароль"));
+        return Promise.reject(new Error('Неправильные почта или пароль'));
       }
 
       return bcrypt.compare(password, user.password)
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new Error("Неправильные почта или пароль"));
+            return Promise.reject(new Error('Неправильные почта или пароль'));
           }
 
           return user;
@@ -59,4 +59,4 @@ userSchema.statics.findUserByCredentials = function compare(email, password) {
     });
 };
 
-module.exports = model("user", userSchema);
+module.exports = model('user', userSchema);
