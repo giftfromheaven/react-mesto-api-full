@@ -4,11 +4,11 @@
 
 ## Ссылка на сайт:
 
-praktikumdomainfrontend.nomoredomains.rocks
+https://praktikumdomainfrontend.nomoredomains.rocks
 
 ## Домен сервера:
 
-api.praktikumfrontend.nomoredomains.rocks
+https://api.praktikumfrontend.nomoredomains.rocks
 
 ## Публичный ip-адрес:
 
