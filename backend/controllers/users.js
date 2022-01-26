@@ -19,18 +19,18 @@ const getUsers = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name, about, avatar, email, password,
+  } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) =>
-      User.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-    )
+    .then((hash) => User.create({
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
+    }))
     .then((user) => {
       res.status(Ok201).send({
         id: user._id,
@@ -44,8 +44,8 @@ const createUser = (req, res, next) => {
       if (err.name === "ValidationError") {
         next(
           new BadRequestError(
-            "Переданы некорректные данные при создании пользователя"
-          )
+            "Переданы некорректные данные при создании пользователя",
+          ),
         );
       } else if (err.code === 11000) {
         next(new ConflictError("Пользователь с таким email уже существует"));
@@ -79,10 +79,10 @@ const updateUser = (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
     .orFail(
-      () => new NotFoundError("Пользователь с указанным id не существует")
+      () => new NotFoundError("Пользователь с указанным id не существует"),
     )
     .then((user) => {
       res.status(Ok201).send(user);
@@ -91,8 +91,8 @@ const updateUser = (req, res, next) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
         next(
           new BadRequestError(
-            "Переданы некорректные данные при обновлении данных пользователя"
-          )
+            "Переданы некорректные данные при обновлении данных пользователя",
+          ),
         );
       }
       next(err);
@@ -107,10 +107,10 @@ const updateAvatar = (req, res, next) => {
     {
       new: true,
       runValidators: true,
-    }
+    },
   )
     .orFail(
-      () => new NotFoundError("Пользователь с указанным id не существует")
+      () => new NotFoundError("Пользователь с указанным id не существует"),
     )
     .then((user) => {
       res.status(Ok201).send(user);
@@ -119,8 +119,8 @@ const updateAvatar = (req, res, next) => {
       if (err.name === "ValidationError" || err.name === "CastError") {
         next(
           new BadRequestError(
-            "Переданы некорректные данные при обновлении аватара"
-          )
+            "Переданы некорректные данные при обновлении аватара",
+          ),
         );
       }
       next(err);
@@ -142,7 +142,7 @@ const login = (req, res, next) => {
             token: jwt.sign(
               payload,
               NODE_ENV === "production" ? JWT_SECRET : "randomdata",
-              { expiresIn: "7d" }
+              { expiresIn: "7d" },
             ),
           });
         }
@@ -169,8 +169,8 @@ const getUserMe = (req, res, next) => {
       } else if (err.name === "CastError") {
         next(
           new BadRequestError(
-            "Переданы некорректные данные при обновлении аватара пользователя"
-          )
+            "Переданы некорректные данные при обновлении аватара пользователя",
+          ),
         );
       }
       next(err);
