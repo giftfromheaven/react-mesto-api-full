@@ -1,6 +1,16 @@
-const PopupWithForm = ({ title, name, buttonText, isOpen, children, onClose, onSubmit }) => {
+export const PopupWithForm = ({
+  title,
+  name,
+  buttonText,
+  isOpen,
+  children,
+  onClose,
+  onSubmit,
+  onCloseOverlay,
+}) => {
   return (
     <section
+      onClick={onCloseOverlay}
       className={isOpen ? 'popup popup_type_input popup_opened' : 'popup popup_type_input'}
       id={name}>
       <div className='popup__container popup__container_type_input'>
@@ -20,5 +30,3 @@ const PopupWithForm = ({ title, name, buttonText, isOpen, children, onClose, onS
     </section>
   );
 };
-
-export default PopupWithForm;

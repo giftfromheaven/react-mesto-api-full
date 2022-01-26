@@ -1,9 +1,8 @@
-import React from 'react';
+import { useContext } from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
-  //!
-  const currentUser = React.useContext(CurrentUserContext);
+export const Card = ({ card, onCardClick, onCardLike, onCardDeleteClick }) => {
+  const currentUser = useContext(CurrentUserContext);
   const isOwn = card.owner._id === currentUser._id;
   const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
@@ -11,19 +10,18 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
     onCardLike(card);
   };
 
-  const handleDeleteClick = () => {
-    onCardDelete(card);
-  };
-  //!
-
   const handleClick = () => {
     onCardClick(card);
+  };
+
+  const handleClickDelete = () => {
+    onCardDeleteClick(card);
   };
 
   return (
     <li className='element'>
       <button
-        onClick={handleDeleteClick}
+        onClick={handleClickDelete}
         className='button element__delete-button'
         style={isOwn ? { display: 'block' } : { display: 'none' }}
         aria-label='Удалить'
@@ -47,5 +45,3 @@ const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
     </li>
   );
 };
-
-export default Card;

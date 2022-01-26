@@ -1,6 +1,7 @@
-const ImagePopup = ({ card, onClose }) => {
+export const ImagePopup = ({ card, onClose, onCloseOverlay }) => {
   return (
     <section
+      onClick={onCloseOverlay}
       className={card.link ? 'popup popup_type_image popup_opened' : 'popup popup_type_image'}
       id='image-popup'>
       <div className='popup__container popup__container_type_image'>
@@ -15,5 +16,3 @@ const ImagePopup = ({ card, onClose }) => {
     </section>
   );
 };
-
-export default ImagePopup;

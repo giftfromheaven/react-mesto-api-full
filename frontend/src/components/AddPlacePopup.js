@@ -1,9 +1,16 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
+import { useEffect, useRef } from 'react';
+import { PopupWithForm } from './PopupWithForm';
 
-const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
-  const nameRef = React.useRef();
-  const linkRef = React.useRef();
+export const AddPlacePopup = ({
+  isOpen,
+  onClose,
+  onAddPlace,
+  onCloseOverlay,
+  isLoading,
+  isDataSet,
+}) => {
+  const nameRef = useRef();
+  const linkRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,14 +20,22 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
     });
   };
 
+  useEffect(() => {
+    if (isDataSet) {
+      nameRef.current.value = '';
+      linkRef.current.value = '';
+    }
+  }, [isDataSet]);
+
   return (
     <PopupWithForm
       name={'add-place'}
       title={'Новое место'}
-      buttonText={'Сохранить'}
+      buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpen={isOpen}
       onClose={onClose}
-      onSubmit={handleSubmit}>
+      onSubmit={handleSubmit}
+      onCloseOverlay={onCloseOverlay}>
       <input
         ref={nameRef}
         className='popup__input'
@@ -48,5 +63,3 @@ const AddPlacePopup = ({ isOpen, onClose, onAddPlace }) => {
     </PopupWithForm>
   );
 };
-
-export default AddPlacePopup;
