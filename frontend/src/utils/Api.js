@@ -87,9 +87,9 @@ export default class Api {
 }
 
 export const api = new Api({
-  url: api.praktikumfrontend.nomoredomains.rocks,
+  baseUrl: api.praktikumfrontend.nomoredomains.rocks,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
     'Content-Type': 'application/json',
+    authorization: `Bearer ${localStorage.getItem('jwt')}`,
   },
 });
