@@ -1,3 +1,5 @@
+import { apiInfo } from './variables.js';
+
 export default class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -87,9 +89,9 @@ export default class Api {
 }
 
 export const api = new Api({
-  baseUrl: api.praktikumfrontend.nomoredomains.rocks,
+  baseUrl: apiInfo.url,
   headers: {
+    // authorization: apiInfo.token,
     'Content-Type': 'application/json',
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
   },
 });
