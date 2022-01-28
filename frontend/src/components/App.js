@@ -79,9 +79,9 @@ function App() {
   }, []);
 
   // CHECK token
-  useEffect(() => {
-    tokenCheck();
-  }, []);
+  // useEffect(() => {
+  //   tokenCheck();
+  // }, []);
 
   // START page
   const history = useHistory();
