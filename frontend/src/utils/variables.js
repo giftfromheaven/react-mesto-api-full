@@ -1,3 +1,3 @@
 export const apiInfo = {
-  url: 'https://api.praktikumfrontend.nomoredomains.rocks/',
+  url: 'https://api.praktikumfrontend.nomoredomains.rocks',
 };
