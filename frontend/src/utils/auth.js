@@ -1,4 +1,5 @@
 export const URL = 'https://api.praktikumfrontend.nomoredomains.rocks';
+// export const URL = 'http://localhost:3001';
 
 const handleResponse = (res) => {
   if (res.ok) {
@@ -10,7 +11,6 @@ const handleResponse = (res) => {
 export const register = (password, email) => {
   return fetch(`${URL}/signup`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -21,7 +21,6 @@ export const register = (password, email) => {
 export const authorize = (email, password) => {
   return fetch(`${URL}/signin`, {
     method: 'POST',
-    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -30,6 +29,14 @@ export const authorize = (email, password) => {
   }).then(handleResponse);
 };
 
+export const logout = () => {
+  return fetch(`${URL}/logout`, {
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  }).then(handleResponse);
+};
 // export const getContent = (token) => {
 //   return fetch(`${URL}/users/me`, {
 //     method: 'GET',

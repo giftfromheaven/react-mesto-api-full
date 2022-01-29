@@ -20,6 +20,7 @@ import { Register } from './Register';
 import { InfoToolTip } from './InfoTooltip';
 
 function App() {
+  const [isLoader, setIsLoader] = useState(false);
   // USER & CARDS
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({
@@ -56,16 +57,33 @@ function App() {
   });
 
   // GET User and Cards
+  // useEffect(() => {
+  //   api
+  //     .getAllneededData()
+  //     .then((res) => {
+  //       const [cards, userInfo] = res;
+  //       setCards(cards);
+  //       setCurrentUser(userInfo);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
+
   useEffect(() => {
+    setIsLoader(true);
     api
       .getAllneededData()
       .then((res) => {
         const [cards, userInfo] = res;
-        setCards(cards);
+        setCards(cards.reverse());
         setCurrentUser(userInfo);
+        setUserData({ email: userInfo.email });
+        setLoggedIn(true);
       })
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoader(false);
+      });
+  }, [loggedIn]);
 
   // CLOSE popup by Esc
   useEffect(() => {
@@ -223,9 +241,9 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const handleRegister = (password, email) => {
+  const handleRegister = (password, email, name, about, avatar) => {
     auth
-      .register(password, email)
+      .register(password, email, name, about, avatar)
       .then((res) => {
         setIsDataSet(true);
         history.push('/sign-in');
@@ -249,9 +267,15 @@ function App() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setUserData({ email: '' });
-    setLoggedIn(false);
+    auth
+      .logout()
+      .then(() => {
+        setUserData({ email: '' });
+        setLoggedIn(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // const tokenCheck = () => {
@@ -287,6 +311,7 @@ function App() {
           <ProtectedRoute
             exact
             path='/'
+            isLoader={isLoader}
             loggedIn={loggedIn}
             handleEditProfileClick={onEditProfile}
             handleAddPlaceClick={onAddPlace}

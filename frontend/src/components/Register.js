@@ -5,6 +5,9 @@ export const Register = ({ handleRegister, isDataSet }) => {
   const [data, setData] = useState({
     email: '',
     password: '',
+    name: '',
+    about: '',
+    avatar: '',
   });
 
   const handleChange = (e) => {

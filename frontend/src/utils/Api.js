@@ -32,7 +32,6 @@ export default class Api {
   setCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
-      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -44,7 +43,6 @@ export default class Api {
   setUserInfo(data) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
-      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
         name: data.name,
@@ -56,7 +54,6 @@ export default class Api {
   setAvatar(data) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
-      credentials: 'include',
       headers: this._headers,
       body: JSON.stringify(data),
     }).then(this._handleResponse);
@@ -65,7 +62,6 @@ export default class Api {
   setLike(data) {
     return fetch(`${this._baseUrl}/cards/likes/${data}`, {
       method: 'PUT',
-      credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
   }
@@ -73,7 +69,6 @@ export default class Api {
   setDislike(data) {
     return fetch(`${this._baseUrl}/cards/likes/${data}`, {
       method: 'DELETE',
-      credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
   }
@@ -81,7 +76,6 @@ export default class Api {
   changeLikeCardStatus(data, isLiked) {
     return fetch(`${this._baseUrl}/cards/likes/${data}`, {
       method: `${isLiked ? 'DELETE' : 'PUT'}`,
-      credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
   }

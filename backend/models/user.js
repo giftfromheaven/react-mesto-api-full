@@ -1,8 +1,8 @@
 // models/user.js
 
-const { Schema, model } = require('mongoose');
-const { isEmail, isURL } = require('validator');
-const bcrypt = require('bcrypt');
+const { Schema, model } = require("mongoose");
+const { isEmail, isURL } = require("validator");
+const bcrypt = require("bcrypt");
 // Опишем схему:
 const userSchema = new Schema({
   name: {
@@ -10,19 +10,23 @@ const userSchema = new Schema({
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: "Жак-Ив Кусто",
   },
   about: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: "Исследователь",
   },
   avatar: {
     type: String,
     required: true,
+    default:
+      "https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png",
     validate: {
       validator: (url) => isURL(url),
-      message: 'Ссылка не подходит',
+      message: "Ссылка не подходит",
     },
   },
   email: {
@@ -31,7 +35,7 @@ const userSchema = new Schema({
     unique: true,
     validate: {
       validator: (email) => isEmail(email),
-      messages: 'Не подходящий адрес электронной почты',
+      messages: "Не подходящий адрес электронной почты",
     },
   },
   password: {
@@ -42,21 +46,21 @@ const userSchema = new Schema({
 });
 
 userSchema.statics.findUserByCredentials = function compare(email, password) {
-  return this.findOne({ email }).select('+password')
+  return this.findOne({ email })
+    .select("+password")
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
+        return Promise.reject(new Error("Неправильные почта или пароль"));
       }
 
-      return bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error('Неправильные почта или пароль'));
-          }
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return Promise.reject(new Error("Неправильные почта или пароль"));
+        }
 
-          return user;
-        });
+        return user;
+      });
     });
 };
 
-module.exports = model('user', userSchema);
+module.exports = model("user", userSchema);
