@@ -37,14 +37,3 @@ export const logout = () => {
     },
   }).then(handleResponse);
 };
-// export const getContent = (token) => {
-//   return fetch(`${URL}/users/me`, {
-//     method: 'GET',
-//     credentials: 'include',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }).then(handleResponse);
-// };

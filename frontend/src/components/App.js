@@ -57,24 +57,18 @@ function App() {
   });
 
   // GET User and Cards
-  // useEffect(() => {
-  //   api
-  //     .getAllneededData()
-  //     .then((res) => {
-  //       const [cards, userInfo] = res;
-  //       setCards(cards);
-  //       setCurrentUser(userInfo);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
 
   useEffect(() => {
     setIsLoader(true);
     api
       .getAllneededData()
       .then((res) => {
+        // console.log(res);
         const [cards, userInfo] = res;
-        setCards(cards.reverse());
+
+        // console.log(cards);
+        setCards(cards.cards.reverse());
+        // console.log('cards unloaded after');
         setCurrentUser(userInfo);
         setUserData({ email: userInfo.email });
         setLoggedIn(true);
@@ -95,11 +89,6 @@ function App() {
     document.addEventListener('keydown', closeByEscape);
     return () => document.removeEventListener('keydown', closeByEscape);
   }, []);
-
-  // CHECK token
-  // useEffect(() => {
-  //   tokenCheck();
-  // }, []);
 
   // START page
   const history = useHistory();
@@ -231,7 +220,6 @@ function App() {
       .authorize(email, password)
       .then((res) => {
         if (res) {
-          console.log(res);
           localStorage.setItem('token', res.token);
           setUserData({ email: email });
           setLoggedIn(true);
@@ -241,21 +229,6 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
-
-  // const handleLogin = (email, password) => {
-  //   auth
-  //     .authorize(email, password)
-  //     .then((res) => {
-  //       if (res.message) {
-  //         //решил не мудрить
-  //         setUserData({ email: email });
-  //         setLoggedIn(true);
-  //         setIsMenuOpen(false);
-  //         history.push('/');
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   const handleRegister = (password, email, name, about, avatar) => {
     auth

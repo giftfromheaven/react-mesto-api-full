@@ -15,7 +15,6 @@ export default class Api {
 
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      // credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
   }

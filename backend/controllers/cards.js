@@ -14,26 +14,13 @@ const getCards = (req, res, next) => {
     });
 };
 
-// const addCard = (req, res, next) => {
-//   const { name, link } = req.body;
-//   const owner = req.user._id;
-//   return Card.create({ name, link, owner })
-//     .then((card) => res.status(Ok201).send({ data: card }))
-//     .catch((err) => {
-//       if (err.name === 'ValidationError') {
-//         next(new BadRequestError('Переданы некорректные данные при создании карточки'));
-//       }
-//       next(err);
-//     });
-// };
-
 const addCard = async (req, res, next) => {
   try {
     const { name, link } = req.body;
     const owner = req.user._id;
     const card = new Card({ name, link, owner });
     await card.save();
-    return res.status(201).json(card);
+    return res.status(Ok201).json(card);
   } catch (error) {
     if (error.name === "ValidationError") {
       next(new BadRequestError("Переданы некорректные данные"));
