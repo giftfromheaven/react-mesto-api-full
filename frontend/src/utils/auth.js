@@ -1,4 +1,4 @@
-export const URL = 'http://api.praktikumfrontend.nomoredomains.rocks';
+export const URL = 'https://api.praktikumfrontend.nomoredomains.rocks';
 // export const URL = 'http://localhost:3001';
 
 const handleResponse = (res) => {
