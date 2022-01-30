@@ -15,6 +15,7 @@ export default class Api {
 
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
+      // credentials: 'include',
       headers: this._headers,
     }).then(this._handleResponse);
   }
@@ -91,7 +92,7 @@ export default class Api {
 export const api = new Api({
   baseUrl: apiInfo.url,
   headers: {
-    authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    authorization: `Bearer ${localStorage.getItem('token')}`,
     'Content-Type': 'application/json',
   },
 });

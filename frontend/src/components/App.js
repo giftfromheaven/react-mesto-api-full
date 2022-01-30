@@ -230,7 +230,8 @@ function App() {
     auth
       .authorize(email, password)
       .then((res) => {
-        if (res.token) {
+        if (res) {
+          console.log(res);
           localStorage.setItem('token', res.token);
           setUserData({ email: email });
           setLoggedIn(true);
@@ -240,6 +241,21 @@ function App() {
       })
       .catch((err) => console.log(err));
   };
+
+  // const handleLogin = (email, password) => {
+  //   auth
+  //     .authorize(email, password)
+  //     .then((res) => {
+  //       if (res.message) {
+  //         //решил не мудрить
+  //         setUserData({ email: email });
+  //         setLoggedIn(true);
+  //         setIsMenuOpen(false);
+  //         history.push('/');
+  //       }
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const handleRegister = (password, email, name, about, avatar) => {
     auth

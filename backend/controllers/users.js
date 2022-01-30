@@ -18,68 +18,66 @@ const getUsers = (req, res, next) => {
     });
 };
 
-// const createUser = (req, res, next) => {
-//   const { name, about, avatar, email, password } = req.body;
-//   bcrypt
-//     .hash(password, 10)
-//     .then((hash) =>
-//       User.create({
-//         name,
-//         about,
-//         avatar,
-//         email,
-//         password: hash,
-//       })
-//     )
-//     .then((user) => {
-//       res.status(Ok201).send({
-//         id: user._id,
-//         email: user.email,
-//         name: user.name,
-//         about: user.about,
-//         avatar: user.avatar,
-//       });
-//     })
-//     .catch((err) => {
-//       if (err.name === "ValidationError") {
-//         next(
-//           new BadRequestError(
-//             "Переданы некорректные данные при создании пользователя"
-//           )
-//         );
-//       } else if (err.code === 11000) {
-//         next(new ConflictError("Пользователь с таким email уже существует"));
-//       }
-//       next(err);
-//     });
-// };
-
-const createUser = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const prospect = await User.findOne({ email });
-    if (prospect) {
-      throw new ConflictError("Такой пользователь уже существует");
-    }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ ...req.body, password: hashedPassword });
-    await user.save();
-    return res.status(201).json({
-      name: user.name,
-      about: user.about,
-      avatar: user.avatar,
-      email: user.email,
-      _id: user._id,
-      // ...user._doc, password: ''
-      // можно было еще так, оператор ...rest не получилось применить
+const createUser = (req, res, next) => {
+  const { name, about, avatar, email, password } = req.body;
+  bcrypt
+    .hash(password, 10)
+    .then((hash) =>
+      User.create({
+        name,
+        about,
+        avatar,
+        email,
+        password: hash,
+      })
+    )
+    .then((user) => {
+      res.status(Ok201).send({
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+      });
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        next(
+          new BadRequestError(
+            "Переданы некорректные данные при создании пользователя"
+          )
+        );
+      } else if (err.code === 11000) {
+        next(new ConflictError("Пользователь с таким email уже существует"));
+      }
+      next(err);
     });
-  } catch (error) {
-    if (error.name === "ValidationError") {
-      next(new BadRequestError("Переданы некорректные данные"));
-    }
-    return next(error);
-  }
 };
+
+// const createUser = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+//     const prospect = await User.findOne({ email });
+//     if (prospect) {
+//       throw new ConflictError("Такой пользователь уже существует");
+//     }
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const user = new User({ ...req.body, password: hashedPassword });
+//     await user.save();
+//     return res.status(201).json({
+//       name: user.name,
+//       about: user.about,
+//       avatar: user.avatar,
+//       email: user.email,
+//       _id: user._id,
+//     });
+//   } catch (error) {
+//     if (error.name === "ValidationError") {
+//       next(new BadRequestError("Переданы некорректные данные"));
+//     }
+//     return next(error);
+//   }
+// };
 
 const getCurrentUser = (req, res, next) => {
   const { userId } = req.params;
@@ -154,67 +152,67 @@ const updateAvatar = (req, res, next) => {
     });
 };
 
-// const login = (req, res, next) => {
-//   const { email, password } = req.body;
-//   User.findOne({ email })
-//     .select("+password")
-//     .orFail(new Error("IncorrectEmail"))
-//     .then((user) => {
-//       bcrypt.compare(password, user.password).then((matched) => {
-//         if (!matched) {
-//           next(new NotAuthError("Указан некорректный Email или пароль"));
-//         } else {
-//           const payload = { _id: user._id };
-//           res.send({
-//             token: jwt.sign(
-//               payload,
-//               NODE_ENV === "production" ? JWT_SECRET : "randomdata",
-//               { expiresIn: "7d" }
-//             ),
-//           });
-//         }
-//       });
-//     })
-//     .catch((err) => {
-//       if (err.message === "IncorrectEmail") {
-//         next(new NotAuthError("Указан некорректный Email или пароль"));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
-const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select("+password");
-    if (!user) {
-      throw new NotAuthError("Некорректный логин или пароль");
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      throw new NotAuthError("Некорректный логин или пароль");
-    }
-    const token = jwt.sign(
-      { _id: user._id },
-      NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
-      { expiresIn: "7d" }
-    );
-    return res
-      .cookie("jwt", token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-      })
-      .json({ message: "Авторизация прошла успешно" });
-  } catch (error) {
-    if (error.name === "ValidationError") {
-      next(new UnauthorizedUserError("Некорректный логин или пароль"));
-    }
-    return next(error);
-  }
+const login = (req, res, next) => {
+  const { email, password } = req.body;
+  User.findOne({ email })
+    .select("+password")
+    .orFail(new Error("IncorrectEmail"))
+    .then((user) => {
+      bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          next(new NotAuthError("Указан некорректный Email или пароль"));
+        } else {
+          const payload = { _id: user._id };
+          res.send({
+            token: jwt.sign(
+              payload,
+              NODE_ENV === "production" ? JWT_SECRET : "randomdata",
+              { expiresIn: "7d" }
+            ),
+          });
+        }
+      });
+    })
+    .catch((err) => {
+      if (err.message === "IncorrectEmail") {
+        next(new NotAuthError("Указан некорректный Email или пароль"));
+      } else {
+        next(err);
+      }
+    });
 };
+
+// const login = async (req, res, next) => {
+//   try {
+//     const { email, password } = req.body;
+//     const user = await User.findOne({ email }).select("+password");
+//     if (!user) {
+//       throw new NotAuthError("Некорректный логин или пароль");
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) {
+//       throw new NotAuthError("Некорректный логин или пароль");
+//     }
+//     const token = jwt.sign(
+//       { _id: user._id },
+//       NODE_ENV === "production" ? JWT_SECRET : "randomdata",
+//       { expiresIn: "7d" }
+//     );
+//     return res
+//       .cookie("jwt", token, {
+//         maxAge: 3600000 * 24 * 7,
+//         httpOnly: true,
+//         sameSite: "None",
+//         secure: true,
+//       })
+//       .json({ message: "Авторизация прошла успешно" });
+//   } catch (error) {
+//     if (error.name === "ValidationError") {
+//       next(new UnauthorizedUserError("Некорректный логин или пароль"));
+//     }
+//     return next(error);
+//   }
+// };
 
 const getUserMe = (req, res, next) => {
   User.findById(req.user._id)

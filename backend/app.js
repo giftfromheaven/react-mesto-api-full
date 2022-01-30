@@ -15,7 +15,8 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const NotFoundError = require("./errors/not-found-error");
 
-const { PORT = 3001 } = process.env;
+// const { PORT = 3001 } = process.env;
+const { PORT = 3000 } = process.env;
 const app = express();
 // app.use(cors());
 // app.options("*", cors());
