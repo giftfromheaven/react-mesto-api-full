@@ -63,12 +63,9 @@ function App() {
     api
       .getAllneededData()
       .then((res) => {
-        // console.log(res);
         const [cards, userInfo] = res;
 
-        // console.log(cards);
         setCards(cards.cards.reverse());
-        // console.log('cards unloaded after');
         setCurrentUser(userInfo);
         setUserData({ email: userInfo.email });
         setLoggedIn(true);
@@ -228,7 +225,13 @@ function App() {
           history.push('/');
         }
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setInfoToolTipData({
+          icon: false,
+          title: 'Что-то пошло не так! Попробуйте ещё раз.',
+        });
+        handleInfoToolTip();
+      });
   };
 
   const handleRegister = (password, email, name, about, avatar) => {
@@ -267,21 +270,6 @@ function App() {
         console.log(err);
       });
   };
-
-  // const tokenCheck = () => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     auth
-  //       .getContent(token)
-  //       .then((res) => {
-  //         if (res) {
-  //           setUserData({ email: res.data.email });
-  //           setLoggedIn(true);
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
