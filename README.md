@@ -6,7 +6,7 @@
 
 Приложение, в котором можно делиться фотографиями.
 
-Данное приложение состоит из двух частей: фронтенд, написанный на React и бэкенд, написанный на Express.
+Данное приложение состоит из двух частей: [фронтенд](https://github.com/giftfromheaven/react-mesto-auth), написанный на React и [бэкенд](https://github.com/giftfromheaven/express-mesto), написанный на Express.
 
 <p align="center">
   <img src="https://github.com/giftfromheaven/react-mesto-auth/blob/master/src/images/preview.png?raw=truee" alt="giftfromheaven's screenshot"/>
