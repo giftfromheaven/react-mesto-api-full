@@ -17,7 +17,7 @@
 - Mongo DB
 - ExpressJS
 - React JS
-- NodeJs
+- NodeJS
 
 ## Функциональные возможности
 
@@ -31,14 +31,19 @@
 
 - Проект завершён
 
-## Ссылка на сайт:
+## Инструкция по установке:
 
-https://praktikumdomainfrontend.nomoredomains.rocks
+Клонировать репозиторий:
 
-## Домен сервера:
+* `git clone https://github.com/giftfromheaven/react-mesto-api-full.git`
 
-https://api.praktikumfrontend.nomoredomains.rocks
+Установить зависимости и запуск приложения:
 
-## Публичный ip-адрес:
-
-84.252.130.97
+* `cd backend` - переход в папку с бэкендом
+* `npm install` - устанавливает зависимости; 
+* `npm run start` - запускает сервер;
+* `npm run dev` - запускает сервер в режиме разработки;
+* `cd ..` - переход на общую папку проекта
+* `cd frontend` - переход в папку с фронтендом
+* `npm install` - устанавливает зависимости; 
+* `npm run start` - запускает сервер;
