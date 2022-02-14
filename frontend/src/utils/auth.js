@@ -1,5 +1,5 @@
-export const URL = 'https://api.praktikumfrontend.nomoredomains.rocks';
-// export const URL = 'http://localhost:3001';
+// export const URL = 'https://api.praktikumfrontend.nomoredomains.rocks';
+export const URL = 'http://localhost:3001';
 
 const handleResponse = (res) => {
   if (res.ok) {

@@ -14,8 +14,8 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const NotFoundError = require("./errors/not-found-error");
 
-// const { PORT = 3001 } = process.env;
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
+// const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
@@ -26,7 +26,7 @@ app.use(requestLogger);
 const allowedCors = [
   "http://praktikumdomainfrontend.nomoredomains.rocks",
   "https://praktikumdomainfrontend.nomoredomains.rocks",
-  "localhost:3000",
+  "http://localhost:3000",
 ];
 
 app.use((req, res, next) => {

@@ -309,7 +309,7 @@ function App() {
             <Register handleRegister={handleRegister} isDataSet={isDataSet} />
           </Route>
 
-          <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-in' />}</Route>
+          <Route>{loggedIn ? <Redirect to='/' /> : <Redirect to='/sign-up' />}</Route>
         </Switch>
 
         <Footer />
